@@ -11,6 +11,7 @@ import json
 import os
 from models import db
 from models import Song
+from models import User
 from models import app
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -101,10 +102,29 @@ def check_song():
     else:
         return 'Song %s doesn\'t exist\n' % name
 
-@app.route('/login')
-def login():
-    form = LoginForm(request.form)
-    return render_template('forms/login.html', form=form)
+
+@app.route('/api/v1.0/update_user', methods=['POST'])
+def update_user():
+    data = json.loads(request.data)
+    # import ipdb
+    # ipdb.set_trace()
+    if not User.query.filter_by(id=data['id']).first():
+        user = User(data['id'], data['x'], data['y'], data['requested_song'])
+        db.session.add(user)
+        db.session.commit()
+
+
+@app.route('/usercount', methods=['POST'])
+def get_users():
+    data = json.loads(request.data)
+    if data['long'] == '10' and data['lat'] == '10':
+        return json.dumps({'count': 5})
+    if data['long'] == '10' and data['lat'] == '20':
+        return json.dumps({'count': 0})
+    if data['long'] == '10' and data['lat'] == '30':
+        return json.dumps({'count': 11})
+    if data['long'] == '10' and data['lat'] == '40':
+        return json.dumps({'count': 3})
 
 
 @app.route('/register')
