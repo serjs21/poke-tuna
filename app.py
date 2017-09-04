@@ -3,21 +3,57 @@
 #----------------------------------------------------------------------------#
 
 from flask import Flask, render_template, request
-# from flask.ext.sqlalchemy import SQLAlchemy
+from flask.ext.sqlalchemy import SQLAlchemy
 import logging
 from logging import Formatter, FileHandler
 from forms import *
 import json
 import os
+from models import db
+from models import Song
+from models import app
+from sqlalchemy import create_engine
+from sqlalchemy.orm import scoped_session, sessionmaker
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, Integer, String
+# from flask import Flask
+# from flask_sqlalchemy import SQLAlchemy
+#
+#
+# app = Flask(__name__)
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
+# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+# db = SQLAlchemy(app)
+# db.init_app(app)
+#
+#
+# class Song(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     name = db.Column(db.String(80), unique=True)
+#
+#     def __init__(self, name):
+#         self.name = name
+#
+#     def __repr__(self):
+#         return '<Song %r>' % self.name
+#
+# db.create_all()
 
+
+# def init_db():
+#     # import all modules here that might define models so that
+#     # they will be registered properly on the metadata.  Otherwise
+#     # you will have to import them first before calling init_db()
+#     # import yourapplication.models
+#     Base.metadata.create_all(bind=engine)
 #----------------------------------------------------------------------------#
 # App Config.
 #----------------------------------------------------------------------------#
 
-app = Flask(__name__)
-app.config.from_object('config')
-#db = SQLAlchemy(app)
+# app = Flask(__name__)
+# app.config.from_object('config')
 
+# db = SQLAlchemy(app)
 # Automatically tear down SQLAlchemy.
 '''
 @app.teardown_request
@@ -47,15 +83,23 @@ def home():
     return render_template('pages/placeholder.home.html')
 
 
-@app.route('/api/v1.0/test', methods=['POST'])
-def post():
+@app.route('/api/v1.0/add_song', methods=['POST'])
+def add_song():
     data = json.loads(request.data)
-    return data['name']
-    # return 'hi %s\n' % name
+    song = Song(data['name'])
+    db.session.add(song)
+    db.session.commit()
+    return 'Song %s was added\n' % data['name']
 
-@app.route('/api/v1.0/test', methods=['GET'])
-def get():
-    return 'bye\n'
+@app.route('/api/v1.0/check_song', methods=['POST'])
+def check_song():
+    # import ipdb
+    # ipdb.set_trace()
+    name = json.loads(request.data)['name']
+    if Song.query.filter_by(name=name).first():
+        return 'Song %s exists\n' % name
+    else:
+        return 'Song %s doesn\'t exist\n' % name
 
 @app.route('/login')
 def login():
@@ -108,6 +152,8 @@ if not app.debug:
 # # Or specify port manually:
 # '''
 if __name__ == '__main__':
+    # db = init()
+    # global db
     port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port)
+    app.run(host='0.0.0.0', port=port, threaded=True)
 # '''

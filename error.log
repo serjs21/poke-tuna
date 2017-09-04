@@ -1,1 +1,20 @@
 
+2017-09-04 23:44:48,522 INFO: errors [in app.py:142]
+2017-09-04 23:45:26,625 INFO: errors [in app.py:142]
+2017-09-04 23:46:03,823 INFO: errors [in app.py:142]
+2017-09-04 23:46:14,967 ERROR: Exception on /api/v1.0/check_song [POST] [in /usr/lib/python2.7/site-packages/flask/app.py:1423]
+Traceback (most recent call last):
+  File "/usr/lib/python2.7/site-packages/flask/app.py", line 1817, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/lib/python2.7/site-packages/flask/app.py", line 1477, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/lib/python2.7/site-packages/flask/app.py", line 1381, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/lib/python2.7/site-packages/flask/app.py", line 1475, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/lib/python2.7/site-packages/flask/app.py", line 1461, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "app.py", line 99, in check_song
+    if Song.query.filter_by(name=name).first().id:
+AttributeError: 'NoneType' object has no attribute 'id'
+2017-09-04 23:47:05,347 INFO: errors [in app.py:142]
