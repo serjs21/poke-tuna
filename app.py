@@ -7,6 +7,7 @@ from flask import Flask, render_template, request
 import logging
 from logging import Formatter, FileHandler
 from forms import *
+import json
 import os
 
 #----------------------------------------------------------------------------#
@@ -48,7 +49,9 @@ def home():
 
 @app.route('/api/v1.0/test', methods=['POST'])
 def post():
-    return 'hi\n'
+    data = json.loads(request.data)
+    return data['name']
+    # return 'hi %s\n' % name
 
 @app.route('/api/v1.0/test', methods=['GET'])
 def get():
@@ -99,12 +102,12 @@ if not app.debug:
 #----------------------------------------------------------------------------#
 
 # Default port:
-if __name__ == '__main__':
-    app.run()
-
-# Or specify port manually:
-'''
+# if __name__ == '__main__':
+#     app.run()
+#
+# # Or specify port manually:
+# '''
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
-'''
+# '''
