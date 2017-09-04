@@ -467,3 +467,57 @@ Traceback (most recent call last):
   File "/usr/lib/python2.7/site-packages/flask/app.py", line 1566, in make_response
     raise ValueError('View function did not return a response')
 ValueError: View function did not return a response
+2017-09-05 01:11:24,654 INFO: errors [in app.py:155]
+2017-09-05 01:11:27,919 ERROR: Exception on /usercount [POST] [in /usr/lib/python2.7/site-packages/flask/app.py:1423]
+Traceback (most recent call last):
+  File "/usr/lib/python2.7/site-packages/flask/app.py", line 1817, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/lib/python2.7/site-packages/flask/app.py", line 1477, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/lib/python2.7/site-packages/flask/app.py", line 1381, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/lib/python2.7/site-packages/flask/app.py", line 1475, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/lib/python2.7/site-packages/flask/app.py", line 1461, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "app.py", line 120, in get_users
+    return json.dump({'count': int(random.random() * 50)})
+TypeError: dump() takes at least 2 arguments (1 given)
+2017-09-05 01:11:29,720 ERROR: Exception on /usercount [POST] [in /usr/lib/python2.7/site-packages/flask/app.py:1423]
+Traceback (most recent call last):
+  File "/usr/lib/python2.7/site-packages/flask/app.py", line 1817, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/lib/python2.7/site-packages/flask/app.py", line 1477, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/lib/python2.7/site-packages/flask/app.py", line 1381, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/lib/python2.7/site-packages/flask/app.py", line 1475, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/lib/python2.7/site-packages/flask/app.py", line 1461, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "app.py", line 120, in get_users
+    return json.dump({'count': int(random.random() * 50)})
+TypeError: dump() takes at least 2 arguments (1 given)
+2017-09-05 01:11:44,097 INFO: errors [in app.py:157]
+2017-09-05 01:12:27,754 ERROR: Exception on /usercount [POST] [in /usr/lib/python2.7/site-packages/flask/app.py:1423]
+Traceback (most recent call last):
+  File "/usr/lib/python2.7/site-packages/flask/app.py", line 1817, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/lib/python2.7/site-packages/flask/app.py", line 1475, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/lib/python2.7/site-packages/flask/app.py", line 1381, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/lib/python2.7/site-packages/flask/app.py", line 1475, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/lib/python2.7/site-packages/flask/app.py", line 1461, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "app.py", line 122, in get_users
+    return json.dumps({'count': int(random.random() * 50)})
+  File "app.py", line 122, in get_users
+    return json.dumps({'count': int(random.random() * 50)})
+  File "/usr/lib64/python2.7/bdb.py", line 49, in trace_dispatch
+    return self.dispatch_line(frame)
+  File "/usr/lib64/python2.7/bdb.py", line 68, in dispatch_line
+    if self.quitting: raise BdbQuit
+BdbQuit
+2017-09-05 01:12:33,178 INFO: errors [in app.py:157]

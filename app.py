@@ -117,7 +117,9 @@ def update_user():
 @app.route('/usercount', methods=['POST'])
 def get_users():
     import random
-    return int(random.random() * 50)
+    # import ipdb
+    # ipdb.set_trace()
+    return json.dumps({'count': int(random.random() * 50)})
 
 
 @app.route('/register')
