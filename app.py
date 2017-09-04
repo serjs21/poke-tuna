@@ -116,15 +116,8 @@ def update_user():
 
 @app.route('/usercount', methods=['POST'])
 def get_users():
-    data = json.loads(request.data)
-    if data['long'] == '10' and data['lat'] == '10':
-        return json.dumps({'count': 5})
-    if data['long'] == '10' and data['lat'] == '20':
-        return json.dumps({'count': 0})
-    if data['long'] == '10' and data['lat'] == '30':
-        return json.dumps({'count': 11})
-    if data['long'] == '10' and data['lat'] == '40':
-        return json.dumps({'count': 3})
+    import random
+    return int(random.random() * 50)
 
 
 @app.route('/register')
