@@ -21,19 +21,20 @@ class Song(db.Model):
 
 
 class User(db.Model):
-    id = db.Column(db.String(80), primary_key=True)
-    phoneid = db.Column(db.String(80))
-    x = db.Column(db.Integer)
-    y = db.Column(db.Integer)
+    id = db.Column(db.String(80))
+    phoneid = db.Column(db.String(80),  primary_key=True, unique=True)
+    long = db.Column(db.Float)
+    lat = db.Column(db.Float)
     requested_song = db.Column(db.String(80), unique=True)
 
-    def __init__(self, phoneid, x, y, requested_song):
+    def __init__(self, phoneid, lat, long, requested_song):
         self.phoneid = phoneid
-        self.x = int(x)
-        self.y = int(y)
+        self.lat = float(lat)
+        self.long = float(long)
         self.requested_song = requested_song
 
     def __repr__(self):
-        return '<User %r>' % self.name
+        return '<User %r>' % self.phoneid
 
+db.drop_all()
 db.create_all()

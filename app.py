@@ -92,10 +92,9 @@ def add_song():
     db.session.commit()
     return 'Song %s was added\n' % data['name']
 
+
 @app.route('/api/v1.0/check_song', methods=['POST'])
 def check_song():
-    # import ipdb
-    # ipdb.set_trace()
     name = json.loads(request.data)['name']
     if Song.query.filter_by(name=name).first():
         return 'Song %s exists\n' % name
@@ -106,20 +105,37 @@ def check_song():
 @app.route('/api/v1.0/update_user', methods=['POST'])
 def update_user():
     data = json.loads(request.data)
-    # import ipdb
-    # ipdb.set_trace()
-    if not User.query.filter_by(id=data['id']).first():
-        user = User(data['id'], data['x'], data['y'], data['requested_song'])
+    rs = None
+    if data.has_key('requested_song'):
+        rs = data['requested_song']
+    if not User.query.filter_by(phoneid=data['phoneid']).first():
+        user = User(data['phoneid'], data['lat'], data['long'], rs)
         db.session.add(user)
         db.session.commit()
+    else:
+        User.query.filter_by(phoneid=data['phoneid']).long = data['long']
+        User.query.filter_by(phoneid=data['phoneid']).lat = data['lat']
+        User.query.filter_by(phoneid=data['phoneid']).requested_song = rs
+        db.session.commit()
+    return 'User updated\n'
 
 
-@app.route('/usercount', methods=['POST'])
+@app.route('/api/v1.0/usercount', methods=['POST'])
 def get_users():
-    import random
-    # import ipdb
-    # ipdb.set_trace()
-    return json.dumps({'count': int(random.random() * 50)})
+    users = User.query.all()
+    data = json.loads(request.data)
+    counter = 0
+    rs = None
+    if data.has_key('requested_song'):
+        rs = data['requested_song']
+    for u in users:
+        if (u.lat - float(data['lat'])) ** 2 + (u.long - float(data['long'])) ** 2 <= float(data['range'])   ** 2:
+            if rs:
+                if u.requested_song == rs:
+                    counter += 1
+            else:
+                counter += 1
+    return json.dumps({'count': counter})
 
 
 @app.route('/register')
